@@ -1,0 +1,752 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="NhaHangModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BAN">
+          <Key>
+            <PropertyRef Name="MABAN" />
+          </Key>
+          <Property Name="MABAN" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TENBAN" Type="nvarchar" MaxLength="50" />
+          <Property Name="SOCHONGOI" Type="int" />
+          <Property Name="MAKHUVUC" Type="varchar" MaxLength="10" />
+          <Property Name="TRANGTHAI" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CHAMCONG">
+          <Key>
+            <PropertyRef Name="MANHANVIEN" />
+            <PropertyRef Name="NGAYLAM" />
+            <PropertyRef Name="CA" />
+          </Key>
+          <Property Name="MANHANVIEN" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="NGAYLAM" Type="date" Nullable="false" />
+          <Property Name="CA" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CHITIETPHIEU">
+          <Key>
+            <PropertyRef Name="MAMON" />
+            <PropertyRef Name="MAPHIEU" />
+          </Key>
+          <Property Name="MAMON" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="MAPHIEU" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="SOLUONG" Type="int" />
+        </EntityType>
+        <EntityType Name="CONGTHUC">
+          <Key>
+            <PropertyRef Name="MAMON" />
+            <PropertyRef Name="MANGUYENLIEU" />
+          </Key>
+          <Property Name="MAMON" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="MANGUYENLIEU" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="HAMLUONG" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="KHUVUC">
+          <Key>
+            <PropertyRef Name="MAKHUVUC" />
+          </Key>
+          <Property Name="MAKHUVUC" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TENKHUVUC" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="LOAIMON">
+          <Key>
+            <PropertyRef Name="MALOAIMON" />
+          </Key>
+          <Property Name="MALOAIMON" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TENLOAIMON" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="NGUYENLIEU">
+          <Key>
+            <PropertyRef Name="MANGUYENLIEU" />
+          </Key>
+          <Property Name="MANGUYENLIEU" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TENNGUYENLIEU" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="NHANVIEN">
+          <Key>
+            <PropertyRef Name="MANHANVIEN" />
+          </Key>
+          <Property Name="MANHANVIEN" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="HOTEN" Type="nvarchar" MaxLength="50" />
+          <Property Name="PHAI" Type="nvarchar" MaxLength="4" />
+          <Property Name="NGAYSINH" Type="date" />
+          <Property Name="DIACHI" Type="nvarchar" MaxLength="100" />
+          <Property Name="SDT" Type="varchar" MaxLength="12" />
+          <Property Name="NGAYVAOLAM" Type="date" />
+          <Property Name="LUONGCOBAN" Type="int" />
+        </EntityType>
+        <EntityType Name="PHIEU">
+          <Key>
+            <PropertyRef Name="MAPHIEU" />
+          </Key>
+          <Property Name="MAPHIEU" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="NGAYTAO" Type="date" />
+          <Property Name="MABAN" Type="varchar" MaxLength="10" />
+          <Property Name="MANHANVIEN" Type="varchar" MaxLength="10" />
+          <Property Name="THANHTIEN" Type="int" />
+        </EntityType>
+        <EntityType Name="TAIKHOAN">
+          <Key>
+            <PropertyRef Name="TENDANGNHAP" />
+          </Key>
+          <Property Name="MANHANVIEN" Type="varchar" MaxLength="10" />
+          <Property Name="TENDANGNHAP" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="MATKHAU" Type="varchar" MaxLength="30" />
+          <Property Name="CAPQUYEN" Type="nvarchar" MaxLength="60" />
+          <Property Name="TRANGTHAI" Type="nvarchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="THUCDON">
+          <Key>
+            <PropertyRef Name="MAMON" />
+          </Key>
+          <Property Name="MAMON" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TENMON" Type="nvarchar" MaxLength="50" />
+          <Property Name="DVT" Type="nvarchar" MaxLength="10" />
+          <Property Name="DONGIA" Type="int" />
+          <Property Name="MALOAIMON" Type="varchar" MaxLength="10" />
+          <Property Name="HINHANH" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="FK_BAN_KHUVUC">
+          <End Role="KHUVUC" Type="Self.KHUVUC" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BAN" Type="Self.BAN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KHUVUC">
+              <PropertyRef Name="MAKHUVUC" />
+            </Principal>
+            <Dependent Role="BAN">
+              <PropertyRef Name="MAKHUVUC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CHAMCONG_NHANVIEN">
+          <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CHAMCONG" Type="Self.CHAMCONG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NHANVIEN">
+              <PropertyRef Name="MANHANVIEN" />
+            </Principal>
+            <Dependent Role="CHAMCONG">
+              <PropertyRef Name="MANHANVIEN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CHITIETPHIEU_PHIEU">
+          <End Role="PHIEU" Type="Self.PHIEU" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CHITIETPHIEU" Type="Self.CHITIETPHIEU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PHIEU">
+              <PropertyRef Name="MAPHIEU" />
+            </Principal>
+            <Dependent Role="CHITIETPHIEU">
+              <PropertyRef Name="MAPHIEU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CHITIETPHIEU_THUCDON">
+          <End Role="THUCDON" Type="Self.THUCDON" Multiplicity="1" />
+          <End Role="CHITIETPHIEU" Type="Self.CHITIETPHIEU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="THUCDON">
+              <PropertyRef Name="MAMON" />
+            </Principal>
+            <Dependent Role="CHITIETPHIEU">
+              <PropertyRef Name="MAMON" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CONGTHUC_NGUYENLIEU">
+          <End Role="NGUYENLIEU" Type="Self.NGUYENLIEU" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CONGTHUC" Type="Self.CONGTHUC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NGUYENLIEU">
+              <PropertyRef Name="MANGUYENLIEU" />
+            </Principal>
+            <Dependent Role="CONGTHUC">
+              <PropertyRef Name="MANGUYENLIEU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CONGTHUC_THUCDON">
+          <End Role="THUCDON" Type="Self.THUCDON" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CONGTHUC" Type="Self.CONGTHUC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="THUCDON">
+              <PropertyRef Name="MAMON" />
+            </Principal>
+            <Dependent Role="CONGTHUC">
+              <PropertyRef Name="MAMON" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PHIEU_BAN">
+          <End Role="BAN" Type="Self.BAN" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PHIEU" Type="Self.PHIEU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BAN">
+              <PropertyRef Name="MABAN" />
+            </Principal>
+            <Dependent Role="PHIEU">
+              <PropertyRef Name="MABAN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PHIEU_NHANVIEN">
+          <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="0..1" />
+          <End Role="PHIEU" Type="Self.PHIEU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NHANVIEN">
+              <PropertyRef Name="MANHANVIEN" />
+            </Principal>
+            <Dependent Role="PHIEU">
+              <PropertyRef Name="MANHANVIEN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TAIKHOANG_NHANVIEN">
+          <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="0..1" />
+          <End Role="TAIKHOAN" Type="Self.TAIKHOAN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NHANVIEN">
+              <PropertyRef Name="MANHANVIEN" />
+            </Principal>
+            <Dependent Role="TAIKHOAN">
+              <PropertyRef Name="MANHANVIEN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_THUCDON_LOAIMON">
+          <End Role="LOAIMON" Type="Self.LOAIMON" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="THUCDON" Type="Self.THUCDON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LOAIMON">
+              <PropertyRef Name="MALOAIMON" />
+            </Principal>
+            <Dependent Role="THUCDON">
+              <PropertyRef Name="MALOAIMON" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NhaHangModelStoreContainer">
+          <EntitySet Name="BAN" EntityType="Self.BAN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CHAMCONG" EntityType="Self.CHAMCONG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CHITIETPHIEU" EntityType="Self.CHITIETPHIEU" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CONGTHUC" EntityType="Self.CONGTHUC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KHUVUC" EntityType="Self.KHUVUC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LOAIMON" EntityType="Self.LOAIMON" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NGUYENLIEU" EntityType="Self.NGUYENLIEU" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NHANVIEN" EntityType="Self.NHANVIEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PHIEU" EntityType="Self.PHIEU" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TAIKHOAN" EntityType="Self.TAIKHOAN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="THUCDON" EntityType="Self.THUCDON" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BAN_KHUVUC" Association="Self.FK_BAN_KHUVUC">
+            <End Role="KHUVUC" EntitySet="KHUVUC" />
+            <End Role="BAN" EntitySet="BAN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CHAMCONG_NHANVIEN" Association="Self.FK_CHAMCONG_NHANVIEN">
+            <End Role="NHANVIEN" EntitySet="NHANVIEN" />
+            <End Role="CHAMCONG" EntitySet="CHAMCONG" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CHITIETPHIEU_PHIEU" Association="Self.FK_CHITIETPHIEU_PHIEU">
+            <End Role="PHIEU" EntitySet="PHIEU" />
+            <End Role="CHITIETPHIEU" EntitySet="CHITIETPHIEU" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CHITIETPHIEU_THUCDON" Association="Self.FK_CHITIETPHIEU_THUCDON">
+            <End Role="THUCDON" EntitySet="THUCDON" />
+            <End Role="CHITIETPHIEU" EntitySet="CHITIETPHIEU" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CONGTHUC_NGUYENLIEU" Association="Self.FK_CONGTHUC_NGUYENLIEU">
+            <End Role="NGUYENLIEU" EntitySet="NGUYENLIEU" />
+            <End Role="CONGTHUC" EntitySet="CONGTHUC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CONGTHUC_THUCDON" Association="Self.FK_CONGTHUC_THUCDON">
+            <End Role="THUCDON" EntitySet="THUCDON" />
+            <End Role="CONGTHUC" EntitySet="CONGTHUC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHIEU_BAN" Association="Self.FK_PHIEU_BAN">
+            <End Role="BAN" EntitySet="BAN" />
+            <End Role="PHIEU" EntitySet="PHIEU" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHIEU_NHANVIEN" Association="Self.FK_PHIEU_NHANVIEN">
+            <End Role="NHANVIEN" EntitySet="NHANVIEN" />
+            <End Role="PHIEU" EntitySet="PHIEU" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TAIKHOANG_NHANVIEN" Association="Self.FK_TAIKHOANG_NHANVIEN">
+            <End Role="NHANVIEN" EntitySet="NHANVIEN" />
+            <End Role="TAIKHOAN" EntitySet="TAIKHOAN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_THUCDON_LOAIMON" Association="Self.FK_THUCDON_LOAIMON">
+            <End Role="LOAIMON" EntitySet="LOAIMON" />
+            <End Role="THUCDON" EntitySet="THUCDON" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NhaHangModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BAN">
+          <Key>
+            <PropertyRef Name="MABAN" />
+          </Key>
+          <Property Name="MABAN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TENBAN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SOCHONGOI" Type="Int32" />
+          <Property Name="MAKHUVUC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TRANGTHAI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="KHUVUC" Relationship="Self.FK_BAN_KHUVUC" FromRole="BAN" ToRole="KHUVUC" />
+          <NavigationProperty Name="PHIEUx" Relationship="Self.FK_PHIEU_BAN" FromRole="BAN" ToRole="PHIEU" />
+        </EntityType>
+        <EntityType Name="CHAMCONG">
+          <Key>
+            <PropertyRef Name="MANHANVIEN" />
+            <PropertyRef Name="NGAYLAM" />
+            <PropertyRef Name="CA" />
+          </Key>
+          <Property Name="MANHANVIEN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NGAYLAM" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CA" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="NHANVIEN" Relationship="Self.FK_CHAMCONG_NHANVIEN" FromRole="CHAMCONG" ToRole="NHANVIEN" />
+        </EntityType>
+        <EntityType Name="CHITIETPHIEU">
+          <Key>
+            <PropertyRef Name="MAMON" />
+            <PropertyRef Name="MAPHIEU" />
+          </Key>
+          <Property Name="MAMON" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MAPHIEU" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SOLUONG" Type="Int32" />
+          <NavigationProperty Name="PHIEU" Relationship="Self.FK_CHITIETPHIEU_PHIEU" FromRole="CHITIETPHIEU" ToRole="PHIEU" />
+          <NavigationProperty Name="THUCDON" Relationship="Self.FK_CHITIETPHIEU_THUCDON" FromRole="CHITIETPHIEU" ToRole="THUCDON" />
+        </EntityType>
+        <EntityType Name="CONGTHUC">
+          <Key>
+            <PropertyRef Name="MAMON" />
+            <PropertyRef Name="MANGUYENLIEU" />
+          </Key>
+          <Property Name="MAMON" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MANGUYENLIEU" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HAMLUONG" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="NGUYENLIEU" Relationship="Self.FK_CONGTHUC_NGUYENLIEU" FromRole="CONGTHUC" ToRole="NGUYENLIEU" />
+          <NavigationProperty Name="THUCDON" Relationship="Self.FK_CONGTHUC_THUCDON" FromRole="CONGTHUC" ToRole="THUCDON" />
+        </EntityType>
+        <EntityType Name="KHUVUC">
+          <Key>
+            <PropertyRef Name="MAKHUVUC" />
+          </Key>
+          <Property Name="MAKHUVUC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TENKHUVUC" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BANs" Relationship="Self.FK_BAN_KHUVUC" FromRole="KHUVUC" ToRole="BAN" />
+        </EntityType>
+        <EntityType Name="LOAIMON">
+          <Key>
+            <PropertyRef Name="MALOAIMON" />
+          </Key>
+          <Property Name="MALOAIMON" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TENLOAIMON" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="THUCDONs" Relationship="Self.FK_THUCDON_LOAIMON" FromRole="LOAIMON" ToRole="THUCDON" />
+        </EntityType>
+        <EntityType Name="NGUYENLIEU">
+          <Key>
+            <PropertyRef Name="MANGUYENLIEU" />
+          </Key>
+          <Property Name="MANGUYENLIEU" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TENNGUYENLIEU" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CONGTHUCs" Relationship="Self.FK_CONGTHUC_NGUYENLIEU" FromRole="NGUYENLIEU" ToRole="CONGTHUC" />
+        </EntityType>
+        <EntityType Name="NHANVIEN">
+          <Key>
+            <PropertyRef Name="MANHANVIEN" />
+          </Key>
+          <Property Name="MANHANVIEN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HOTEN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PHAI" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="NGAYSINH" Type="DateTime" Precision="0" />
+          <Property Name="DIACHI" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SDT" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="NGAYVAOLAM" Type="DateTime" Precision="0" />
+          <Property Name="LUONGCOBAN" Type="Int32" />
+          <NavigationProperty Name="CHAMCONGs" Relationship="Self.FK_CHAMCONG_NHANVIEN" FromRole="NHANVIEN" ToRole="CHAMCONG" />
+          <NavigationProperty Name="PHIEUx" Relationship="Self.FK_PHIEU_NHANVIEN" FromRole="NHANVIEN" ToRole="PHIEU" />
+          <NavigationProperty Name="TAIKHOANs" Relationship="Self.FK_TAIKHOANG_NHANVIEN" FromRole="NHANVIEN" ToRole="TAIKHOAN" />
+        </EntityType>
+        <EntityType Name="PHIEU">
+          <Key>
+            <PropertyRef Name="MAPHIEU" />
+          </Key>
+          <Property Name="MAPHIEU" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NGAYTAO" Type="DateTime" Precision="0" />
+          <Property Name="MABAN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="MANHANVIEN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="THANHTIEN" Type="Int32" />
+          <NavigationProperty Name="BAN" Relationship="Self.FK_PHIEU_BAN" FromRole="PHIEU" ToRole="BAN" />
+          <NavigationProperty Name="CHITIETPHIEUx" Relationship="Self.FK_CHITIETPHIEU_PHIEU" FromRole="PHIEU" ToRole="CHITIETPHIEU" />
+          <NavigationProperty Name="NHANVIEN" Relationship="Self.FK_PHIEU_NHANVIEN" FromRole="PHIEU" ToRole="NHANVIEN" />
+        </EntityType>
+        <EntityType Name="TAIKHOAN">
+          <Key>
+            <PropertyRef Name="TENDANGNHAP" />
+          </Key>
+          <Property Name="MANHANVIEN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TENDANGNHAP" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MATKHAU" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CAPQUYEN" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="TRANGTHAI" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="NHANVIEN" Relationship="Self.FK_TAIKHOANG_NHANVIEN" FromRole="TAIKHOAN" ToRole="NHANVIEN" />
+        </EntityType>
+        <EntityType Name="THUCDON">
+          <Key>
+            <PropertyRef Name="MAMON" />
+          </Key>
+          <Property Name="MAMON" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TENMON" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DVT" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DONGIA" Type="Int32" />
+          <Property Name="MALOAIMON" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="HINHANH" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CHITIETPHIEUx" Relationship="Self.FK_CHITIETPHIEU_THUCDON" FromRole="THUCDON" ToRole="CHITIETPHIEU" />
+          <NavigationProperty Name="CONGTHUCs" Relationship="Self.FK_CONGTHUC_THUCDON" FromRole="THUCDON" ToRole="CONGTHUC" />
+          <NavigationProperty Name="LOAIMON" Relationship="Self.FK_THUCDON_LOAIMON" FromRole="THUCDON" ToRole="LOAIMON" />
+        </EntityType>
+        <Association Name="FK_BAN_KHUVUC">
+          <End Role="KHUVUC" Type="Self.KHUVUC" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BAN" Type="Self.BAN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KHUVUC">
+              <PropertyRef Name="MAKHUVUC" />
+            </Principal>
+            <Dependent Role="BAN">
+              <PropertyRef Name="MAKHUVUC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PHIEU_BAN">
+          <End Role="BAN" Type="Self.BAN" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PHIEU" Type="Self.PHIEU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BAN">
+              <PropertyRef Name="MABAN" />
+            </Principal>
+            <Dependent Role="PHIEU">
+              <PropertyRef Name="MABAN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CHAMCONG_NHANVIEN">
+          <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CHAMCONG" Type="Self.CHAMCONG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NHANVIEN">
+              <PropertyRef Name="MANHANVIEN" />
+            </Principal>
+            <Dependent Role="CHAMCONG">
+              <PropertyRef Name="MANHANVIEN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CHITIETPHIEU_PHIEU">
+          <End Role="PHIEU" Type="Self.PHIEU" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CHITIETPHIEU" Type="Self.CHITIETPHIEU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PHIEU">
+              <PropertyRef Name="MAPHIEU" />
+            </Principal>
+            <Dependent Role="CHITIETPHIEU">
+              <PropertyRef Name="MAPHIEU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CHITIETPHIEU_THUCDON">
+          <End Role="THUCDON" Type="Self.THUCDON" Multiplicity="1" />
+          <End Role="CHITIETPHIEU" Type="Self.CHITIETPHIEU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="THUCDON">
+              <PropertyRef Name="MAMON" />
+            </Principal>
+            <Dependent Role="CHITIETPHIEU">
+              <PropertyRef Name="MAMON" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CONGTHUC_NGUYENLIEU">
+          <End Role="NGUYENLIEU" Type="Self.NGUYENLIEU" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CONGTHUC" Type="Self.CONGTHUC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NGUYENLIEU">
+              <PropertyRef Name="MANGUYENLIEU" />
+            </Principal>
+            <Dependent Role="CONGTHUC">
+              <PropertyRef Name="MANGUYENLIEU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CONGTHUC_THUCDON">
+          <End Role="THUCDON" Type="Self.THUCDON" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CONGTHUC" Type="Self.CONGTHUC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="THUCDON">
+              <PropertyRef Name="MAMON" />
+            </Principal>
+            <Dependent Role="CONGTHUC">
+              <PropertyRef Name="MAMON" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_THUCDON_LOAIMON">
+          <End Role="LOAIMON" Type="Self.LOAIMON" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="THUCDON" Type="Self.THUCDON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LOAIMON">
+              <PropertyRef Name="MALOAIMON" />
+            </Principal>
+            <Dependent Role="THUCDON">
+              <PropertyRef Name="MALOAIMON" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PHIEU_NHANVIEN">
+          <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="0..1" />
+          <End Role="PHIEU" Type="Self.PHIEU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NHANVIEN">
+              <PropertyRef Name="MANHANVIEN" />
+            </Principal>
+            <Dependent Role="PHIEU">
+              <PropertyRef Name="MANHANVIEN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TAIKHOANG_NHANVIEN">
+          <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="0..1" />
+          <End Role="TAIKHOAN" Type="Self.TAIKHOAN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NHANVIEN">
+              <PropertyRef Name="MANHANVIEN" />
+            </Principal>
+            <Dependent Role="TAIKHOAN">
+              <PropertyRef Name="MANHANVIEN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NhaHangEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BANs" EntityType="Self.BAN" />
+          <EntitySet Name="CHAMCONGs" EntityType="Self.CHAMCONG" />
+          <EntitySet Name="CHITIETPHIEUx" EntityType="Self.CHITIETPHIEU" />
+          <EntitySet Name="CONGTHUCs" EntityType="Self.CONGTHUC" />
+          <EntitySet Name="KHUVUCs" EntityType="Self.KHUVUC" />
+          <EntitySet Name="LOAIMONs" EntityType="Self.LOAIMON" />
+          <EntitySet Name="NGUYENLIEUx" EntityType="Self.NGUYENLIEU" />
+          <EntitySet Name="NHANVIENs" EntityType="Self.NHANVIEN" />
+          <EntitySet Name="PHIEUx" EntityType="Self.PHIEU" />
+          <EntitySet Name="TAIKHOANs" EntityType="Self.TAIKHOAN" />
+          <EntitySet Name="THUCDONs" EntityType="Self.THUCDON" />
+          <AssociationSet Name="FK_BAN_KHUVUC" Association="Self.FK_BAN_KHUVUC">
+            <End Role="KHUVUC" EntitySet="KHUVUCs" />
+            <End Role="BAN" EntitySet="BANs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHIEU_BAN" Association="Self.FK_PHIEU_BAN">
+            <End Role="BAN" EntitySet="BANs" />
+            <End Role="PHIEU" EntitySet="PHIEUx" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CHAMCONG_NHANVIEN" Association="Self.FK_CHAMCONG_NHANVIEN">
+            <End Role="NHANVIEN" EntitySet="NHANVIENs" />
+            <End Role="CHAMCONG" EntitySet="CHAMCONGs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CHITIETPHIEU_PHIEU" Association="Self.FK_CHITIETPHIEU_PHIEU">
+            <End Role="PHIEU" EntitySet="PHIEUx" />
+            <End Role="CHITIETPHIEU" EntitySet="CHITIETPHIEUx" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CHITIETPHIEU_THUCDON" Association="Self.FK_CHITIETPHIEU_THUCDON">
+            <End Role="THUCDON" EntitySet="THUCDONs" />
+            <End Role="CHITIETPHIEU" EntitySet="CHITIETPHIEUx" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CONGTHUC_NGUYENLIEU" Association="Self.FK_CONGTHUC_NGUYENLIEU">
+            <End Role="NGUYENLIEU" EntitySet="NGUYENLIEUx" />
+            <End Role="CONGTHUC" EntitySet="CONGTHUCs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CONGTHUC_THUCDON" Association="Self.FK_CONGTHUC_THUCDON">
+            <End Role="THUCDON" EntitySet="THUCDONs" />
+            <End Role="CONGTHUC" EntitySet="CONGTHUCs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_THUCDON_LOAIMON" Association="Self.FK_THUCDON_LOAIMON">
+            <End Role="LOAIMON" EntitySet="LOAIMONs" />
+            <End Role="THUCDON" EntitySet="THUCDONs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHIEU_NHANVIEN" Association="Self.FK_PHIEU_NHANVIEN">
+            <End Role="NHANVIEN" EntitySet="NHANVIENs" />
+            <End Role="PHIEU" EntitySet="PHIEUx" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TAIKHOANG_NHANVIEN" Association="Self.FK_TAIKHOANG_NHANVIEN">
+            <End Role="NHANVIEN" EntitySet="NHANVIENs" />
+            <End Role="TAIKHOAN" EntitySet="TAIKHOANs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NhaHangModelStoreContainer" CdmEntityContainer="NhaHangEntities">
+          <EntitySetMapping Name="BANs">
+            <EntityTypeMapping TypeName="NhaHangModel.BAN">
+              <MappingFragment StoreEntitySet="BAN">
+                <ScalarProperty Name="MABAN" ColumnName="MABAN" />
+                <ScalarProperty Name="TENBAN" ColumnName="TENBAN" />
+                <ScalarProperty Name="SOCHONGOI" ColumnName="SOCHONGOI" />
+                <ScalarProperty Name="MAKHUVUC" ColumnName="MAKHUVUC" />
+                <ScalarProperty Name="TRANGTHAI" ColumnName="TRANGTHAI" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CHAMCONGs">
+            <EntityTypeMapping TypeName="NhaHangModel.CHAMCONG">
+              <MappingFragment StoreEntitySet="CHAMCONG">
+                <ScalarProperty Name="MANHANVIEN" ColumnName="MANHANVIEN" />
+                <ScalarProperty Name="NGAYLAM" ColumnName="NGAYLAM" />
+                <ScalarProperty Name="CA" ColumnName="CA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CHITIETPHIEUx">
+            <EntityTypeMapping TypeName="NhaHangModel.CHITIETPHIEU">
+              <MappingFragment StoreEntitySet="CHITIETPHIEU">
+                <ScalarProperty Name="MAMON" ColumnName="MAMON" />
+                <ScalarProperty Name="MAPHIEU" ColumnName="MAPHIEU" />
+                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CONGTHUCs">
+            <EntityTypeMapping TypeName="NhaHangModel.CONGTHUC">
+              <MappingFragment StoreEntitySet="CONGTHUC">
+                <ScalarProperty Name="MAMON" ColumnName="MAMON" />
+                <ScalarProperty Name="MANGUYENLIEU" ColumnName="MANGUYENLIEU" />
+                <ScalarProperty Name="HAMLUONG" ColumnName="HAMLUONG" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KHUVUCs">
+            <EntityTypeMapping TypeName="NhaHangModel.KHUVUC">
+              <MappingFragment StoreEntitySet="KHUVUC">
+                <ScalarProperty Name="MAKHUVUC" ColumnName="MAKHUVUC" />
+                <ScalarProperty Name="TENKHUVUC" ColumnName="TENKHUVUC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LOAIMONs">
+            <EntityTypeMapping TypeName="NhaHangModel.LOAIMON">
+              <MappingFragment StoreEntitySet="LOAIMON">
+                <ScalarProperty Name="MALOAIMON" ColumnName="MALOAIMON" />
+                <ScalarProperty Name="TENLOAIMON" ColumnName="TENLOAIMON" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NGUYENLIEUx">
+            <EntityTypeMapping TypeName="NhaHangModel.NGUYENLIEU">
+              <MappingFragment StoreEntitySet="NGUYENLIEU">
+                <ScalarProperty Name="MANGUYENLIEU" ColumnName="MANGUYENLIEU" />
+                <ScalarProperty Name="TENNGUYENLIEU" ColumnName="TENNGUYENLIEU" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NHANVIENs">
+            <EntityTypeMapping TypeName="NhaHangModel.NHANVIEN">
+              <MappingFragment StoreEntitySet="NHANVIEN">
+                <ScalarProperty Name="MANHANVIEN" ColumnName="MANHANVIEN" />
+                <ScalarProperty Name="HOTEN" ColumnName="HOTEN" />
+                <ScalarProperty Name="PHAI" ColumnName="PHAI" />
+                <ScalarProperty Name="NGAYSINH" ColumnName="NGAYSINH" />
+                <ScalarProperty Name="DIACHI" ColumnName="DIACHI" />
+                <ScalarProperty Name="SDT" ColumnName="SDT" />
+                <ScalarProperty Name="NGAYVAOLAM" ColumnName="NGAYVAOLAM" />
+                <ScalarProperty Name="LUONGCOBAN" ColumnName="LUONGCOBAN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PHIEUx">
+            <EntityTypeMapping TypeName="NhaHangModel.PHIEU">
+              <MappingFragment StoreEntitySet="PHIEU">
+                <ScalarProperty Name="MAPHIEU" ColumnName="MAPHIEU" />
+                <ScalarProperty Name="NGAYTAO" ColumnName="NGAYTAO" />
+                <ScalarProperty Name="MABAN" ColumnName="MABAN" />
+                <ScalarProperty Name="MANHANVIEN" ColumnName="MANHANVIEN" />
+                <ScalarProperty Name="THANHTIEN" ColumnName="THANHTIEN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TAIKHOANs">
+            <EntityTypeMapping TypeName="NhaHangModel.TAIKHOAN">
+              <MappingFragment StoreEntitySet="TAIKHOAN">
+                <ScalarProperty Name="MANHANVIEN" ColumnName="MANHANVIEN" />
+                <ScalarProperty Name="TENDANGNHAP" ColumnName="TENDANGNHAP" />
+                <ScalarProperty Name="MATKHAU" ColumnName="MATKHAU" />
+                <ScalarProperty Name="CAPQUYEN" ColumnName="CAPQUYEN" />
+                <ScalarProperty Name="TRANGTHAI" ColumnName="TRANGTHAI" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="THUCDONs">
+            <EntityTypeMapping TypeName="NhaHangModel.THUCDON">
+              <MappingFragment StoreEntitySet="THUCDON">
+                <ScalarProperty Name="MAMON" ColumnName="MAMON" />
+                <ScalarProperty Name="TENMON" ColumnName="TENMON" />
+                <ScalarProperty Name="DVT" ColumnName="DVT" />
+                <ScalarProperty Name="DONGIA" ColumnName="DONGIA" />
+                <ScalarProperty Name="MALOAIMON" ColumnName="MALOAIMON" />
+                <ScalarProperty Name="HINHANH" ColumnName="HINHANH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
